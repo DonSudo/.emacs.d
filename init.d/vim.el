@@ -134,11 +134,13 @@
     "SPC t" "toggle"
     "SPC o" "open"))
 
+
+;; [[ / ]] 跳转函数
 (with-eval-after-load 'evil
-  ;; [[ / ]] 跳转函数
   (define-key evil-normal-state-map (kbd "[[") #'beginning-of-defun)
   (define-key evil-normal-state-map (kbd "]]") #'end-of-defun))
 
+;; 代码折叠
 (with-eval-after-load 'evil
   (define-key evil-normal-state-map (kbd "za") #'outline-toggle-children)
   (define-key evil-normal-state-map (kbd "zc") #'outline-hide-subtree)

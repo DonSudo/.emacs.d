@@ -54,9 +54,6 @@
 ;; 将下划线绘制在下降线（位置较低）
 (setq x-underline-at-descent-line t)
 
-;; 显示项目到 modeline
-(setopt project-mode-line t)
-
 ;; 自动补全成对字符
 (electric-pair-mode 1)
 
