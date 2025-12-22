@@ -14,9 +14,12 @@
 ;; ----------------------------
 (setq initial-frame-alist
       '((width . 120)
-        (height . 40)
+        (height . 90)
         (vertical-scroll-bars . nil)
         (horizontal-scroll-bars . nil)
+        (internal-border-width . 4)
+        (left-fringe    . 1)
+        (right-fringe   . 1)
         (menu-bar-lines . 0)
         (tool-bar-lines . 0)
         (undecorated . nil)
@@ -36,12 +39,19 @@
       inhibit-startup-echo-area-message t
       inhibit-compacting-font-caches t)
 
+;; No message in scratch buffer
+(setq initial-scratch-message nil)
+
 
 ;; ----------------------------
 ;; 4. 延迟 GC，提升启动性能
 ;; ----------------------------
-(setq gc-cons-threshold most-positive-fixnum)
-(setq gc-cons-percentage 0.6)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.7)
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 128 1024 1024))))
 
 
 ;; ----------------------------
@@ -57,8 +67,4 @@
 (setq package-enable-at-startup nil)
 
 
-;; ----------------------------
-;; 7. 提前禁用垃圾信息
-;; ----------------------------
-;;(setq message-log-max nil) ;; 启动阶段不输出多余日志
-
+(provide 'early-init)

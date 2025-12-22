@@ -23,23 +23,18 @@
 ;; load init.d
 ;; ------------------------------
 (add-to-list 'load-path (expand-file-name "init.d" user-emacs-directory))
-;;(add-to-list 'load-path (expand-file-name "init.d/leader" user-emacs-directory))
 
-(dolist (file '("01-core"
-                "02-ui"
-                "03-evil"
-                "04-cmpl"
-                "05-lsp"
-                "06-tools"
-                "07-org"
-                "08-lang"
-                "09-misc"))
-  (load file nil 'nomessage))
-
-;; recovery gc
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold (* 128 1024 1024))))
+(mapc #'require 
+      '(core
+        misc
+        ui
+        vim
+        tree-sit
+        lsp
+        cmpl
+        org-conf
+        tools
+        lang))
 
 ;; Lanuch timer
 (add-hook 'emacs-startup-hook
