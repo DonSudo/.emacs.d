@@ -16,14 +16,37 @@
         (bash   "https://github.com/tree-sitter/tree-sitter-bash")))
 
 ;; 只在 grammar 可用时 remap
+;;(dolist (pair '((python-mode . python-ts-mode)
+;;                (c-mode      . c-ts-mode)
+;;                (c++-mode    . c++-ts-mode)
+;;                (json-mode   . json-ts-mode)
+;;                (yaml-mode   . yaml-ts-mode)
+;;                (sh-mode     . bash-ts-mode)))
+;;  (when (treesit-language-available-p (car pair))
+;;    (add-to-list 'major-mode-remap-alist pair)))
+
+;; 记录已提示过的 treesit 语言（避免重复 message）
+(defvar my/treesit-enabled-languages nil
+  "Languages for which tree-sitter has been enabled and notified.")
+
 (dolist (pair '((python-mode . python-ts-mode)
                 (c-mode      . c-ts-mode)
                 (c++-mode    . c++-ts-mode)
                 (json-mode   . json-ts-mode)
                 (yaml-mode   . yaml-ts-mode)
                 (sh-mode     . bash-ts-mode)))
-  (when (treesit-language-available-p (car pair))
-    (add-to-list 'major-mode-remap-alist pair)))
+  (let* ((from (car pair))
+         (to   (cdr pair))
+         ;; python-ts-mode -> python
+         (lang (intern
+                (string-remove-suffix
+                 "-ts-mode"
+                 (symbol-name to)))))
+    (when (treesit-language-available-p lang)
+      (add-to-list 'major-mode-remap-alist pair)
+      (unless (memq lang my/treesit-enabled-languages)
+        (push lang my/treesit-enabled-languages)
+        (message "[treesit] Enabled tree-sitter for %s" lang)))))
 
 ;; disable treesit when large file
 (defun my/disable-treesit-for-large-files ()

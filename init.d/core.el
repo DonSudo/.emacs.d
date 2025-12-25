@@ -37,6 +37,7 @@
 (window-divider-mode 1)
 
 ;; emacs self window manage
+(setq frame-resize-pixelwise t)
 (setq window-resize-pixelwise t)
 
 ;; 将下划线绘制在下降线（位置较低）

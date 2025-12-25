@@ -3,8 +3,6 @@
 ;; ------------------------------
 ;; Font setting
 ;; ------------------------------
-(setq frame-resize-pixelwise t)
-
 (defvar my-font-size (cond ((eq system-type 'darwin) 15)
                                  ((eq system-type 'windows-nt) 14)
                                  (t 14))
@@ -160,10 +158,9 @@
 
 (setq tab-bar-close-button-show nil
       tab-bar-new-button-show nil
-      tab-bar-min-width 12
-      tab-bar-max-width 30
       tab-bar-tab-name-truncated-max 24
-      tab-bar-history-mode nil)
+      tab-bar-history-mode nil
+      tab-bar-hints t)
 
 (setq tab-bar-format
       '(tab-bar-format-tabs
@@ -171,27 +168,28 @@
         tab-bar-format-align-right
         tab-bar-format-global))
 
-;;(defun my/project-name()
-;;  (when-let ((proj (project-current)))
-;;    (file-name-nondirectory
-;;     (directory-file-name
-;;      (project-root proj)))))
-;;
-;;(defun my/tab-exists-p (name)
-;;  (member name (mapcar (lambda (tab) (alist-get 'name tab))
-;;                       (tab-bar-tabs))))
-;;
-;;(defun my/switch-to-project-tab()
-;;  (when-let ((name (my/project-name)))
-;;    (unless (my/tab-exists-p name)
-;;      (tab-bar-new-tab)
-;;      (tab-bar-rename-tab name))
-;;    (tab-bar-select-tab-by-name name)))
-;;
-;;(add-hook 'project-find-functions
-;;          (lambda (_dir)
-;;            (my/switch-to-project-tab)
-;;            nil))
+(setq tab-bar-tab-name-function
+      (lambda ()
+        (let ((proj (project-current)))
+          (if proj
+              (file-name-nondirectory
+               (directory-file-name
+                (project-root proj)))
+            (buffer-name)))))
+
+(defun my/tab-bar-switch-to-project ()
+  "Switch to a tab named after current project, or create it."
+  (when-let* ((proj (project-current))
+              (root (project-root proj))
+              (name (file-name-nondirectory
+                     (directory-file-name root))))
+    (unless (member name (mapcar #'car (tab-bar-tabs)))
+      (tab-bar-new-tab))
+    (tab-bar-rename-tab name)))
+
+(add-hook 'project-switch-project-hook
+          #'my/tab-bar-switch-to-project)
+
 
 ;; ------------------------------
 ;; smooth scroll
@@ -201,5 +199,6 @@
       scroll-step 1                               ;; 光标逐行滚动
       scroll-conservatively 101                   ;; 防止跳动
       scroll-margin 5)
+
 
 (provide 'ui)

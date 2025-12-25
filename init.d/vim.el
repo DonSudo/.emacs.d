@@ -145,16 +145,21 @@
 (evil-define-key 'visual 'global (kbd "gc") #'comment-dwim)
 (evil-define-key 'normal 'global (kbd "gr") #'eglot-rename)
 
-(defun my/evil-gh()
+(evil-define-key 'normal 'global
+  (kbd "gh") #'eldoc-box-help-at-point)
+
+(defun my/evil-format ()
   (interactive)
   (cond
    ((and (bound-and-true-p eglot--managed-mode)
-         (fboundp 'eglot-help-at-point))
-   (eglot-help-at-point))
-  ((fboundp 'eldoc))
-  (t
-   (message "No hover documentation available"))))
-(evil-define-key 'normal 'global (kbd "gh") #'my/evil-gh)
+         (fboundp 'eglot-format))
+    (eglot-format))
+   (t
+    (indent-region (region-beginning) (region-end)))))
+
+(evil-define-key 'normal 'global
+  (kbd "gq") #'my/evil-format)
+
 
 ;; [[ / ]] 跳转函数
 (with-eval-after-load 'evil

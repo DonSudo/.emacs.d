@@ -25,14 +25,17 @@
         (height . 90)
         (vertical-scroll-bars . nil)
         (horizontal-scroll-bars . nil)
-        (internal-border-width . 1)
+        (internal-border-width . 12)
         (left-fringe    . 1)
         (right-fringe   . 1)
         (menu-bar-lines . 0)
         (tool-bar-lines . 0)
-        (undecorated . t)
+        ;;(undecorated . t)
         ;;(alpha . 95)
         )) ;; 半透明，可选
+
+(unless (eq system-type 'windows-nt)
+  (setq undecorated t))
 
 (setq default-frame-alist initial-frame-alist)
 (setq frame-inhibit-implied-resize t) ;; 防止 frame resize 阻塞启动
