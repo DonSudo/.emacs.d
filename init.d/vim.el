@@ -2,9 +2,9 @@
 
 (use-package evil
   :init
-  (setq evil-want-C-u-scroll t
-        evil-want-Y-yank-to-eol t
+  (setq evil-want-Y-yank-to-eol t
         evil-want-C-i-jump nil
+        evil-disable-insert-state-bindings t
         evil-want-keybinding nil
         evil-want-integration t
         evil-undo-system 'undo-redo)
@@ -13,7 +13,7 @@
 
 (setq evil-ex-search-count t)
 
-;; Leader：只在 normal / motion
+;; Leader Key：只在 normal / motion
 (defvar my/leader-map (make-sparse-keymap))
 
 (dolist (state '(normal motion visual))
@@ -27,8 +27,7 @@
   (define-key my/leader-map (kbd "X") #'execute-extended-command)
 
   ;; C-h -> SPC h
-  (define-key my/leader-map (kbd "h") help-map)
-  )
+  (define-key my/leader-map (kbd "h") help-map))
 
 (with-eval-after-load 'which-key
   (which-key-add-key-based-replacements
@@ -47,11 +46,9 @@
 (define-key my/leader-toggle-map (kbd "a") 'hs-hide-all)
 (define-key my/leader-toggle-map (kbd "A") 'hs-show-all)
 
-;; outline-mode 折叠/展开
-(define-key my/leader-toggle-map (kbd "o") 'outline-toggle-children)
-(define-key my/leader-toggle-map (kbd "O") 'outline-show-all)
-(define-key my/leader-toggle-map (kbd "c") 'outline-hide-subtree)
-(define-key my/leader-toggle-map (kbd "s") 'outline-show-subtree)
+;; swithc theme
+(define-key my/leader-toggle-map (kbd "t") #'modus-themes-rotate)
+
 
 ;; file key
 (defvar my/leader-file-map (make-sparse-keymap)
@@ -87,6 +84,15 @@
 (define-key my/leader-buffer-map (kbd "k") 'kill-buffer)        ;; SPC b k : 关闭 buffer
 (define-key my/leader-buffer-map (kbd "n") 'next-buffer)        ;; SPC b n : 下一个 buffer
 (define-key my/leader-buffer-map (kbd "p") 'previous-buffer)    ;; SPC b p : 上一个 buffer
+
+(defun my/new-empty-buffer()
+  "Create and switch to a new empty buffer using text-mode"
+  (interactive)
+  (let ((buf (generate-new-buffer "*empty*")))
+    (switch-to-buffer buf)
+    (text-mode)))
+
+(define-key my/leader-buffer-map (kbd "N") #'my/new-empty-buffer)    ;; SPC b p : 上一个 buffer
 
 
 ;; project manage
@@ -134,6 +140,21 @@
     "SPC t" "toggle"
     "SPC o" "open"))
 
+;; vim g- func
+(evil-define-key 'normal 'global (kbd "gc") #'comment-line)
+(evil-define-key 'visual 'global (kbd "gc") #'comment-dwim)
+(evil-define-key 'normal 'global (kbd "gr") #'eglot-rename)
+
+(defun my/evil-gh()
+  (interactive)
+  (cond
+   ((and (bound-and-true-p eglot--managed-mode)
+         (fboundp 'eglot-help-at-point))
+   (eglot-help-at-point))
+  ((fboundp 'eldoc))
+  (t
+   (message "No hover documentation available"))))
+(evil-define-key 'normal 'global (kbd "gh") #'my/evil-gh)
 
 ;; [[ / ]] 跳转函数
 (with-eval-after-load 'evil
@@ -147,6 +168,21 @@
   (define-key evil-normal-state-map (kbd "zo") #'outline-show-subtree)
   (define-key evil-normal-state-map (kbd "zM") #'outline-hide-sublevels)
   (define-key evil-normal-state-map (kbd "zR") #'outline-show-all))
+
+
+;; ensure minibuffer keep emacs mode
+(with-eval-after-load 'evil
+  (evil-set-initial-state 'minibuffer-mode 'emacs))
+
+;; dired
+(with-eval-after-load 'evil
+  (with-eval-after-load 'dired
+    (evil-define-key 'normal dired-mode-map
+    (kbd "RET") #'dired-find-file
+    (kbd "l")   #'dired-find-file
+    (kbd "h")   #'dired-up-directory
+    (kbd "q")   #'quit-window
+    (kbd "g")   #'revert-buffer)))
 
 
 (provide 'vim)

@@ -14,21 +14,6 @@
               tab-width 4
               fill-column 80)
 
-;; Initial buffer
-(setq initial-buffer-choice nil)
-
-;; No frame title
-(setq frame-title-format nil)
-
-;; No file dialog
-(setq use-file-dialog nil)
-
-;; No dialog box
-(setq use-dialog-box nil)
-
-;; No popup windows
-(setq pop-up-windows nil)
-
 ;; Line numbers globally
 (global-display-line-numbers-mode 1)
 
@@ -50,6 +35,9 @@
 (setq window-divider-default-right-width 24)
 (setq window-divider-default-places 'right-only)
 (window-divider-mode 1)
+
+;; emacs self window manage
+(setq window-resize-pixelwise t)
 
 ;; 将下划线绘制在下降线（位置较低）
 (setq x-underline-at-descent-line t)

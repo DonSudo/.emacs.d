@@ -1,6 +1,9 @@
 /auto-save-list
 /elpa
 /org-persist
+/eln-cache
+/tree-sitter
 custom.el
 history
 recentf
+projects

@@ -7,28 +7,28 @@
 
 (defvar my-font-size (cond ((eq system-type 'darwin) 15)
                                  ((eq system-type 'windows-nt) 14)
-                                 (t 16))
+                                 (t 14))
   "Current font size.")
 
-(defvar my-font-weight "medium"
+(defvar my-font-weight "regular"
   "Current font weight.")
 
 (defvar my-fonts
   `((default . ,(cond ((eq system-type 'darwin) "SF Mono")
                       ((eq system-type 'windows-nt) "Fira Code")
-                      (t "Fira Code")))
+                      (t "Fira Code Nerd Font")))
     (fixed . ,(cond ((eq system-type 'darwin) "SF Mono")
                     ((eq system-type 'windows-nt) "Fira Code")
-                    (t "Fira Code")))
+                    (t "Fira Code Nerd Font")))
     (fixed-serif . ,(cond ((eq system-type 'darwin) "New York")
                           ((eq system-type 'windows-nt) "Fira Code")
-                          (t "Fira Code")))
+                          (t "Fira Code Nerd Font")))
     (variable . ,(cond ((eq system-type 'darwin) "SF Pro")
                        ((eq system-type 'windows-nt) "Fira Code")
-                       (t "Fira Code")))
+                       (t "Fira Code Nerd Font")))
     (han . ,(cond ((eq system-type 'darwin) "PingFang SC")
                   ((eq system-type 'windows-nt) "方正柳公权楷书 简繁")
-                  (t "方正柳公权楷书 简繁")))
+                  (t "LXGWWenKaiMono")))
     (cjk . ,(cond ((eq system-type 'darwin) "PingFang SC")
                   ((eq system-type 'windows-nt) "Microsoft Yahei")
                   (t "Noto Sans CJK SC")))
@@ -94,10 +94,32 @@
 ;; ------------------------------
 ;; Theme
 ;;; ------------------------------
-(use-package modus-themes
-  :defer t
+(use-package ef-themes
+  :ensure t
+  :init
+  (modus-themes-include-derivatives-mode 1)
+  (ef-themes-take-over-modus-themes-mode 1)
   :config
-  (load-theme 'modus-operandi t))
+  (setq modus-themes-mixed-fonts t)
+  (setq modus-themes-italic-constructs t)
+
+  ;; Finally, load your theme of choice (or a random one with
+  ;; `modus-themes-load-random', `modus-themes-load-random-dark',
+  ;; `modus-themes-load-random-light').
+  (modus-themes-load-random))
+
+;;(defvar my/light-theme 'modus-operandi)
+;;(defvar my/dark-theme 'modus-vivendi-tinted)
+;;
+;;(defun my/load-theme(theme)
+;;  (mapc #'disable-theme custom-enabled-themes)
+;;  (load-theme theme t))
+;;
+;;(defun my/toggle-theme()
+;;  (interactive)
+;;  (if (member my/dark-theme custom-enabled-themes)
+;;      (my/load-theme my/light-theme)
+;;    (my/load-theme my/dark-theme)))
 
 
 ;; ------------------------------
@@ -116,53 +138,60 @@
 
 ;;(setq mode-line-modes nil)
 (setq-default minor-mode-alist nil)
-
-;; vim state modeline
-(with-eval-after-load 'evil
-  (setq evil-normal-state-tag   " NORMAL "
-        evil-insert-state-tag   " INSERT "
-        evil-visual-state-tag   " VISUAL "
-        evil-replace-state-tag  " REPLACE "
-        evil-motion-state-tag   " MOTION "
-        evil-emacs-state-tag    " EMACS "))
-
-(custom-set-faces
- '(mode-line
-   ((t (:height 0.95
-        :background "#f2f2f2"
-        :foreground "#444444"
-        :box (:line-width 1 :color "#dddddd")))))
- '(mode-line-inactive
-   ((t (:height 0.95
-        :background "#fafafa"
-        :foreground "#999999"
-        :box (:line-width 1 :color "#eeeeee")))))
-
- ;; Evil states
- '(evil-normal-state ((t (:foreground "#005f87" :weight bold))))
- '(evil-insert-state ((t (:foreground "#5f8700" :weight bold))))
- '(evil-visual-state ((t (:foreground "#875f00" :weight bold))))
- '(evil-replace-state ((t (:foreground "#af0000" :weight bold))))
- '(evil-motion-state ((t (:foreground "#5f5faf" :weight bold))))
- '(evil-emacs-state  ((t (:foreground "#87005f" :weight bold)))))
+(setq mode-line-right-align-edge 'right-margin)
 
 
 ;; ------------------------------
-;; buffer tab
+;; buffer tab (无必要)
 ;; ------------------------------
-;; (global-tab-line-mode 1)
+(global-tab-line-mode 1)
 
-;; ;; 只显示文件 buffer
-;; (setq tab-line-tabs-function
-;;       (lambda ()
-;;         (let ((buffers (buffer-list)))
-;;           (cl-remove-if-not
-;;            (lambda (b) (buffer-file-name b))
-;;            buffers))))
+(setq tab-line-close-button-show nil
+      tab-line-new-button-show nil)
 
-;; (global-set-key (kbd "C-<tab>") 'tab-next)
-;; (global-set-key (kbd "C-S-<tab>") 'tab-previous)
+(tab-line-switch-to-next-tab)
+(tab-line-switch-to-prev-tab)
 
+
+;; ------------------------------
+;; tab bar
+;; ------------------------------
+(tab-bar-mode t)
+
+(setq tab-bar-close-button-show nil
+      tab-bar-new-button-show nil
+      tab-bar-min-width 12
+      tab-bar-max-width 30
+      tab-bar-tab-name-truncated-max 24
+      tab-bar-history-mode nil)
+
+(setq tab-bar-format
+      '(tab-bar-format-tabs
+        tab-bar-separator
+        tab-bar-format-align-right
+        tab-bar-format-global))
+
+;;(defun my/project-name()
+;;  (when-let ((proj (project-current)))
+;;    (file-name-nondirectory
+;;     (directory-file-name
+;;      (project-root proj)))))
+;;
+;;(defun my/tab-exists-p (name)
+;;  (member name (mapcar (lambda (tab) (alist-get 'name tab))
+;;                       (tab-bar-tabs))))
+;;
+;;(defun my/switch-to-project-tab()
+;;  (when-let ((name (my/project-name)))
+;;    (unless (my/tab-exists-p name)
+;;      (tab-bar-new-tab)
+;;      (tab-bar-rename-tab name))
+;;    (tab-bar-select-tab-by-name name)))
+;;
+;;(add-hook 'project-find-functions
+;;          (lambda (_dir)
+;;            (my/switch-to-project-tab)
+;;            nil))
 
 ;; ------------------------------
 ;; smooth scroll
