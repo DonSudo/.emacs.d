@@ -3,6 +3,7 @@
 (use-package org
   :init
   (setq org-startup-indented nil
+        org-pretty-entities t
         org-hide-leading-stars t
         org-ellipsis " ▾"))
 
