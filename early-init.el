@@ -25,17 +25,17 @@
         (height . 90)
         (vertical-scroll-bars . nil)
         (horizontal-scroll-bars . nil)
-        (internal-border-width . 12)
+        (internal-border-width . 2)
         (left-fringe    . 1)
         (right-fringe   . 1)
         (menu-bar-lines . 0)
         (tool-bar-lines . 0)
-        ;;(undecorated . t)
+        (undecorated . nil)
         ;;(alpha . 95)
         )) ;; 半透明，可选
 
-(unless (eq system-type 'windows-nt)
-  (setq undecorated t))
+;;(unless (eq system-type 'windows-nt)
+;;  (setq undecorated t))
 
 (setq default-frame-alist initial-frame-alist)
 (setq frame-inhibit-implied-resize t) ;; 防止 frame resize 阻塞启动
@@ -82,14 +82,14 @@
 ;; ----------------------------
 ;; 5. recentf 延迟加载
 ;; ----------------------------
-(setq recentf-load-file nil)
-(setq recentf-auto-cleanup 'never)
+;;(setq recentf-load-file nil)
+;;(setq recentf-auto-cleanup 'never)
 
 
 ;; ----------------------------
 ;; 6. 禁止默认包初始化阻塞启动
 ;; ----------------------------
-(setq package-enable-at-startup t)
+(setq package-enable-at-startup nil)
 
 
 (provide 'early-init)

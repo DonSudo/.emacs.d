@@ -59,7 +59,7 @@
 (setq isearch-lazy-count t)
 
 ;; 启用后台编译
-(setq native-comp-deferred-compilation t)
+(setq native-comp-deferred-compilation nil)
 
 
 ;; Buffer 编码
@@ -71,7 +71,6 @@
 
 ;; Recentf
 (setq recentf-max-saved-items 100)
-(add-hook 'after-init-hook #'recentf-mode)
 
 
 (provide 'core)

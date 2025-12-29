@@ -89,6 +89,7 @@
                                (my-load-face-font)
                                (my-load-charset-font))))
 
+
 ;; ------------------------------
 ;; Theme
 ;;; ------------------------------
@@ -105,19 +106,6 @@
   ;; `modus-themes-load-random', `modus-themes-load-random-dark',
   ;; `modus-themes-load-random-light').
   (modus-themes-load-random))
-
-;;(defvar my/light-theme 'modus-operandi)
-;;(defvar my/dark-theme 'modus-vivendi-tinted)
-;;
-;;(defun my/load-theme(theme)
-;;  (mapc #'disable-theme custom-enabled-themes)
-;;  (load-theme theme t))
-;;
-;;(defun my/toggle-theme()
-;;  (interactive)
-;;  (if (member my/dark-theme custom-enabled-themes)
-;;      (my/load-theme my/light-theme)
-;;    (my/load-theme my/dark-theme)))
 
 
 ;; ------------------------------
@@ -142,13 +130,12 @@
 ;; ------------------------------
 ;; buffer tab (无必要)
 ;; ------------------------------
-(global-tab-line-mode 1)
+;;(global-tab-line-mode 1)
 
-(setq tab-line-close-button-show nil
-      tab-line-new-button-show nil)
-
-(tab-line-switch-to-next-tab)
-(tab-line-switch-to-prev-tab)
+;;(setq tab-line-close-button-show nil
+;;      tab-line-new-button-show nil)
+;;(tab-line-switch-to-next-tab)
+;;(tab-line-switch-to-prev-tab)
 
 
 ;; ------------------------------
