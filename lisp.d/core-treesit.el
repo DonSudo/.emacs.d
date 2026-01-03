@@ -1,4 +1,4 @@
-;;; tree-sit.el -*- lexical-binding: t -*-
+;;; core-treesit.el -*- lexical-binding: t -*-
 
 (require 'treesit)
 (setq treesit-font-lock-level 4)
@@ -59,4 +59,4 @@
 (add-hook 'find-file-hook #'my/disable-treesit-for-large-files)
 
 
-(provide 'tree-sit)
+(provide 'core-treesit)

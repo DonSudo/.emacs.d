@@ -50,9 +50,6 @@
 ;; Initial buffer
 (setq initial-buffer-choice nil)
 
-;; No frame title
-(setq frame-title-format '("%b"))
-
 ;; No file dialog
 (setq use-file-dialog nil)
 
@@ -62,17 +59,12 @@
 ;; No popup windows
 (setq pop-up-windows nil)
 
-;; 关闭文件名特殊处理
-(setq file-name-handler-alist nil)
-
-;; 仅识别 git 做版本控制
-(setq vc-handled-backends '(Git))
 
 ;; ----------------------------
 ;; 4. 延迟 GC，提升启动性能
 ;; ----------------------------
 (setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.7)
+      gc-cons-percentage 0.6)
 
 (add-hook 'emacs-startup-hook
           (lambda ()

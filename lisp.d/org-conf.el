@@ -1,13 +1,6 @@
 ;;; org-conf.el -*- lexical-binding: t -*-
 
-(use-package org
-  :init
-  (setq org-startup-indented nil
-        org-pretty-entities t
-        org-hide-leading-stars t
-        org-ellipsis " ▾"))
-
-;; modern
+;; org-modern
 (use-package org-modern
   :after org
   :hook

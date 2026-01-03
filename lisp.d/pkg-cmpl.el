@@ -1,20 +1,22 @@
-;;; completion.el -*- lexical-binding: t -*-
+;;; pkg-cmpl.el -*- lexical-binding: t -*-
 
 ;; ------------------------------
 ;; Orderless
 ;; ------------------------------
 (use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles basic partial-completion)))))
+  :custom
+  (completion-styles '(orderless basic)
+    completion-category-defaults nil
+    completion-category-overrides '((file (styles basic partial-completion)))
+    (completion-pcm-leading-wildcard t)))
+
 
 ;; ------------------------------
 ;; Vertico
 ;; ------------------------------
 (use-package vertico
   :init
-  (vertico-mode 1)
+  (vertico-mode)
   :custom
   (vertico-cycle t)
   (vertico-preselect 'first)
@@ -64,4 +66,4 @@
   (evil-insert-state-entry . corfu-mode)
   (evil-insert-state-exit  . (lambda () (corfu-mode -1))))
 
-(provide 'cmpl)
+(provide 'pkg-cmpl)

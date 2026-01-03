@@ -1,4 +1,4 @@
-;;; lsp.el -*- lexical-binding: t -*-
+;;; lsp-eglot.el -*- lexical-binding: t -*-
 
 ;; eglot
 (use-package eglot
@@ -14,7 +14,7 @@
         eglot-code-action-indications '(mode-line)
         eglot-events-buffer-size 0)
   :config
-  ;; 不接管 imenu（用 treesit + consult）
+  ;; 不接管 imenu(用 treesit + consult)
   (setq eglot-extend-to-xref t)
   ;; 不要在 org / text 里乱启动
   (add-to-list 'eglot-ignored-server-capabilities :documentFormattingProvider))
@@ -35,4 +35,4 @@
 (add-hook 'prog-mode-hook #'my/eglot-auto-start)
 
 
-(provide 'lsp)
+(provide 'lsp-eglot)

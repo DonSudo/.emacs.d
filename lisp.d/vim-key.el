@@ -1,24 +1,18 @@
-;;; vim.el -*- lexical-binding: t -*-
+;;; vim-key.el -*- lexical-binding: t -*-
 
-(use-package evil
-  :init
-  (setq evil-want-Y-yank-to-eol t
-        evil-want-C-i-jump nil
-        evil-disable-insert-state-bindings t
-        evil-want-keybinding nil
-        evil-want-integration t
-        evil-undo-system 'undo-redo)
-  :config
-  (evil-mode 1))
-
-(setq evil-ex-search-count t)
-
-;; Leader Key：只在 normal / motion
+;; ------------------------------
+;; Leader key
+;; ------------------------------
+;; only normal / motion / visual mode
 (defvar my/leader-map (make-sparse-keymap))
 
 (dolist (state '(normal motion visual))
   (evil-define-key state 'global (kbd "SPC") my/leader-map))
 
+
+;; ------------------------------
+;; C- map to leader key
+;; ------------------------------
 (with-eval-after-load 'evil
   ;; C-x → SPC x
   (define-key my/leader-map (kbd "x") ctl-x-map)
@@ -35,7 +29,10 @@
     "SPC X" "M-x"
     "SPC h" "C-h"))
 
-;; 定义 "t" 为 toggle / folds submenu
+
+;; ------------------------------
+;; Toggle anything
+;; ------------------------------
 (defvar my/leader-toggle-map (make-sparse-keymap)
   "Leader toggle submenu (folding, outline, etc).")
 (define-key my/leader-map (kbd "t") my/leader-toggle-map)
@@ -50,7 +47,9 @@
 (define-key my/leader-toggle-map (kbd "t") #'modus-themes-rotate)
 
 
-;; file key
+;; ------------------------------
+;; File operation
+;; ------------------------------
 (defvar my/leader-file-map (make-sparse-keymap)
   "Leader 'f' keymap for file operations.")
 (define-key my/leader-map (kbd "f") my/leader-file-map)
@@ -61,7 +60,10 @@
 (define-key my/leader-file-map (kbd "S") 'write-file)      ;; SPC f S : 另存为
 (define-key my/leader-file-map (kbd "d") 'delete-file)     ;; SPC f d : 删除当前文件
 
-;; window operation
+
+;; ------------------------------
+;; Window operation
+;; ------------------------------
 (defvar my/leader-window-map (make-sparse-keymap)
   "Leader 'w' keymap for window management.")
 (define-key my/leader-map (kbd "w") my/leader-window-map)
@@ -75,7 +77,10 @@
 (define-key my/leader-window-map (kbd "j") 'windmove-down)
 (define-key my/leader-window-map (kbd "k") 'windmove-up)
 
-;; buffer manage
+
+;; ------------------------------
+;; Buffer manage
+;; ------------------------------
 (defvar my/leader-buffer-map (make-sparse-keymap)
   "Leader 'b' keymap for buffer management.")
 (define-key my/leader-map (kbd "b") my/leader-buffer-map)
@@ -95,7 +100,9 @@
 (define-key my/leader-buffer-map (kbd "N") #'my/new-empty-buffer)    ;; SPC b p : 上一个 buffer
 
 
-;; project manage
+;; ------------------------------
+;; Project manage
+;; ------------------------------
 (defvar my/leader-project-map (make-sparse-keymap)
   "Leader 'p' keymap for project management.")
 (define-key my/leader-map (kbd "p") my/leader-project-map)
@@ -106,8 +113,9 @@
 (define-key my/leader-project-map (kbd "s") 'consult-ripgrep)        ;; SPC p s : 项目搜索
 (define-key my/leader-project-map (kbd "d") 'project-dired)          ;; SPC p d : 项目目录
 
-
-;; search
+;; ------------------------------
+;; Search
+;; ------------------------------
 (defvar my/leader-search-map (make-sparse-keymap)
   "Leader 's' keymap for search operations.")
 (define-key my/leader-map (kbd "s") my/leader-search-map)
@@ -117,7 +125,9 @@
 (define-key my/leader-search-map (kbd "R") 'query-replace-regexp) ;; SPC s R : 正则替换
 
 
-;; open tool
+;; ------------------------------
+;; Open tools
+;; ------------------------------
 (defvar my/leader-open-map (make-sparse-keymap)
   "Leader 'o' keymap for opening utilities.")
 (define-key my/leader-map (kbd "o") my/leader-open-map)
@@ -129,6 +139,9 @@
 (define-key my/leader-open-map (kbd "c") 'calendar)          ;; SPC o c : 日历
 
 
+;; ------------------------------
+;; sub option define
+;; ------------------------------
 (when (fboundp 'which-key-mode)
   (which-key-mode 1)
   (which-key-add-key-based-replacements
@@ -140,7 +153,10 @@
     "SPC t" "toggle"
     "SPC o" "open"))
 
-;; vim g- func
+
+;; ------------------------------
+;; Vim g- func
+;; ------------------------------
 (evil-define-key 'normal 'global (kbd "gc") #'comment-line)
 (evil-define-key 'visual 'global (kbd "gc") #'comment-dwim)
 (evil-define-key 'normal 'global (kbd "gr") #'eglot-rename)
@@ -161,12 +177,17 @@
   (kbd "gq") #'my/evil-format)
 
 
-;; [[ / ]] 跳转函数
+;; ------------------------------
+;; 函数跳转
+;; ------------------------------
 (with-eval-after-load 'evil
   (define-key evil-normal-state-map (kbd "[[") #'beginning-of-defun)
   (define-key evil-normal-state-map (kbd "]]") #'end-of-defun))
 
+
+;; ------------------------------
 ;; 代码折叠
+;; ------------------------------
 (with-eval-after-load 'evil
   (define-key evil-normal-state-map (kbd "za") #'outline-toggle-children)
   (define-key evil-normal-state-map (kbd "zc") #'outline-hide-subtree)
@@ -175,11 +196,9 @@
   (define-key evil-normal-state-map (kbd "zR") #'outline-show-all))
 
 
-;; ensure minibuffer keep emacs mode
-(with-eval-after-load 'evil
-  (evil-set-initial-state 'minibuffer-mode 'emacs))
-
-;; dired
+;; ------------------------------
+;; Dired-evil integration
+;; ------------------------------
 (with-eval-after-load 'evil
   (with-eval-after-load 'dired
     (evil-define-key 'normal dired-mode-map
@@ -190,4 +209,4 @@
     (kbd "g")   #'revert-buffer)))
 
 
-(provide 'vim)
+(provide 'vim-key)

@@ -1,6 +1,19 @@
-;;; misc.el --- core settings -*- lexical-binding: t -*-
+;;; core-pkg.el --- core settings -*- lexical-binding: t -*-
 
+;; ------------------------------
+;; org-mode.el
+;; ------------------------------
+(use-package org
+  :init
+  (setq org-startup-indented nil
+        org-pretty-entities t
+        org-hide-leading-stars t
+        org-ellipsis " ▾"))
+
+
+;; ------------------------------
 ;; project.el
+;; ------------------------------
 (use-package project
   :defer t
   :init
@@ -16,7 +29,9 @@
           (consult-ripgrep "Ripgrep"))))
 
 
+;; ------------------------------
 ;; which-key
+;; ------------------------------
 (use-package which-key
   :defer 1
   :init
@@ -26,23 +41,5 @@
   :config
   (which-key-mode 1))
 
-;; imenu
-(setq imenu-auto-rescan t
-      imenu-use-popup-menu nil)
 
-
-;; code folding
-;; 只在 prog-mode 启用折叠
-(add-hook 'prog-mode-hook #'outline-minor-mode)
-(add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
-(add-hook 'markdown-mode-hook #'outline-minor-mode)
-(add-hook 'org-mode-hook #'outline-minor-mode)
-
-;; 折叠时不隐藏当前行
-(setq outline-blank-line t)
-
-;; 搜索时自动展开折叠
-(setq hs-isearch-open t)
-
-
-(provide 'misc)
+(provide 'core-pkg)

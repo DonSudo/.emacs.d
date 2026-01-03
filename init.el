@@ -22,19 +22,24 @@
 ;; ------------------------------
 ;; load init.d
 ;; ------------------------------
-(add-to-list 'load-path (expand-file-name "init.d" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lisp.d" user-emacs-directory))
 
 (mapc #'require 
-      '(core
-        misc
-        ui
-        vim
-        tree-sit
-        lsp
-        cmpl
+      '(core-init
+        core-pkg
+        core-misc
+        core-treesit
+        ui-font
+        ui-modeline
+        ui-tabbar
+        ui-theme
+        lsp-eglot
+        vim-core
+        vim-integrate
+        vim-key
         org-conf
-        tools
-        lang))
+        pkg-cmpl
+        pkg-tools))
 
 ;; Lanuch timer
 (add-hook 'emacs-startup-hook
