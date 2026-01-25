@@ -202,11 +202,12 @@
 (with-eval-after-load 'evil
   (with-eval-after-load 'dired
     (evil-define-key 'normal dired-mode-map
-    (kbd "RET") #'dired-find-file
-    (kbd "l")   #'dired-find-file
-    (kbd "h")   #'dired-up-directory
-    (kbd "q")   #'quit-window
-    (kbd "g")   #'revert-buffer)))
+      (kbd "RET") #'dired-find-file
+      (kbd "l")   #'dired-find-file
+      (kbd "h")   #'dired-up-directory
+      (kbd "q")   #'quit-window
+      (kbd "g")   #'revert-buffer)))
 
 
 (provide 'vim-key)
+

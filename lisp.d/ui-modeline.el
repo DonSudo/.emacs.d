@@ -11,9 +11,15 @@
 ;; 显示项目到 modeline
 ;;(setopt project-mode-line t)
 
+;; 更紧凑的 modeline
+;;(setq mode-line-compact 'long)
+
+;; 关闭不必要的 minor-modes 列表
 ;;(setq mode-line-modes nil)
 (setq-default minor-mode-alist nil)
-(setq mode-line-right-align-edge 'right-margin)
+
+;; 高亮当前窗口的 modeline
+(setq mode-line-highlight '((t (:inherit highlight))))
 
 
 (provide 'ui-modeline)

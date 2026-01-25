@@ -31,15 +31,21 @@
         core-treesit
         ui-font
         ui-modeline
-        ui-tabbar
+        ;;ui-tabbar
         ui-theme
+        ui-window
+        ui-pop
+        ui-icons
         lsp-eglot
         vim-core
         vim-integrate
         vim-key
         org-conf
-        pkg-cmpl
-        pkg-tools))
+        ;;org-note
+        edit-cmpl
+        edit-format
+        ;; edit-snippet
+        edit-tools))
 
 ;; Lanuch timer
 (add-hook 'emacs-startup-hook
@@ -47,4 +53,4 @@
             (message "Emacs 启动完成，耗时 %.3fs，加载了 %d 个库"
                      (float-time
                       (time-subtract after-init-time before-init-time))
-                      (length load-path))))
+                     (length load-path))))

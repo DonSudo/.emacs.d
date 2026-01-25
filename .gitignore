@@ -2,7 +2,9 @@
 /elpa
 /org-persist
 /eln-cache
-/tree-sitter
+/treeitter
+/lsp-server
+/toos
 custom.el
 history
 recentf

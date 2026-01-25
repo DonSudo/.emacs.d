@@ -1,21 +1,28 @@
 ;;; core-misc.el --- core settings -*- lexical-binding: t -*-
 
+;; 开启全局视觉折行
+(global-visual-line-mode 1)
+
+;; 允许在没有空格的中文字符间折行 (Emacs 28+)
+(setq word-wrap-by-category t)
+
+;; 视觉折行时，不要切断单词（保持英文单词完整）
+(setq-default word-wrap t)
+
+;; Big file
+(defun my/shutup-emacs-for-big-files ()
+  (when (> (buffer-size) (* 10 1024 1024))
+    (setq font-lock-mode nil)
+    ;; 设为只读保护性能
+    (setq-local buffer-read-only t)
+    (setq-local truncate-lines t)
+    (fundamental-mode)))
+
+(add-hook 'find-file-hook 'my/shutup-emacs-for-big-files)
+
 ;; imenu
 (setq imenu-auto-rescan t
       imenu-use-popup-menu nil)
-
-;; 默认不处理从右到左排序的文本
-;; 强制所有缓冲区默认使用从左到右的方向，避免自动检测
-(setq-default bidi-paragraph-direction 'left-to-right)
-
-;; 禁用双向括号算法，减少代码渲染压力
-(setq-default bidi-inhibit-bpa t)
-
-;; 如果是处理超大文件，可以在 hook 中局部禁用重新排序
-(add-hook 'find-file-hook 
-          (lambda () 
-            (when (> (buffer-size) (* 10 1024 1024)) ; 大于10MB
-              (setq bidi-display-reordering nil))))
 
 ;; code folding
 ;; 只在 prog-mode 启用折叠

@@ -1,8 +1,5 @@
 ;;; early-init.el --- Loaded before init.el  -*- lexical-binding: t; -*-
 
-;; ----------------------------
-;; 1. 禁用 GUI 元素，避免闪烁
-;; ----------------------------
 (setq inhibit-x-resources t
       inhibit-splash-screen t
       inhibit-startup-screen t
@@ -22,28 +19,21 @@
 ;; ----------------------------
 (setq initial-frame-alist
       '((width . 120)
-        (height . 90)
+        (height . 80)
         (vertical-scroll-bars . nil)
         (horizontal-scroll-bars . nil)
-        (internal-border-width . 2)
-        (left-fringe    . 1)
-        (right-fringe   . 1)
+        (internal-border-width . 24)
+        (left-fringe    . 8)
+        (right-fringe   . 8)
         (menu-bar-lines . 0)
         (tool-bar-lines . 0)
         (undecorated . nil)
         ;;(alpha . 95)
         )) ;; 半透明，可选
 
-;;(unless (eq system-type 'windows-nt)
-;;  (setq undecorated t))
-
 (setq default-frame-alist initial-frame-alist)
 (setq frame-inhibit-implied-resize t) ;; 防止 frame resize 阻塞启动
 
-
-;; ----------------------------
-;; 3. 降低启动损耗
-;; ----------------------------
 ;; No message in scratch buffer
 (setq initial-scratch-message nil)
 
@@ -60,9 +50,7 @@
 (setq pop-up-windows nil)
 
 
-;; ----------------------------
-;; 4. 延迟 GC，提升启动性能
-;; ----------------------------
+;; 延迟 GC，提升启动性能
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
@@ -70,18 +58,30 @@
           (lambda ()
             (setq gc-cons-threshold (* 128 1024 1024))))
 
-
-;; ----------------------------
-;; 5. recentf 延迟加载
-;; ----------------------------
-;;(setq recentf-load-file nil)
-;;(setq recentf-auto-cleanup 'never)
-
-
-;; ----------------------------
-;; 6. 禁止默认包初始化阻塞启动
-;; ----------------------------
+;; 禁止默认包初始化阻塞启动
 (setq package-enable-at-startup nil)
+
+;; 文本优化
+(setq-default bidi-paragraph-direction 'left-to-right
+              ;; 默认不进行双向重排
+              bidi-display-reordering nil
+              ;; 禁用双向括号算法, 阿拉伯语、希伯来语等从右向左的语言才需要
+              bidi-inhibit-bpa t
+              ;; 滚动优化, 滚动时不再精确计算每一行的属性
+              fast-but-imprecise-scrolling t
+              ;; 延迟语法高亮，仅在空闲时渲染
+              jit-lock-defer-time 0)
+
+(let ((tools "C:/Program Files/Git/usr/bin")) ;; 或者你自己的 diff 目录
+  (add-to-list 'exec-path tools))
+
+;; ~/.emacs.d/tools 作为外部工具优先路径
+(let ((tools-dir (expand-file-name "~/.emacs.d/tools")))
+  ;; 1. Emacs 查找可执行文件用
+  (add-to-list 'exec-path tools-dir)
+
+  ;; 2. Emacs 子进程继承的 PATH
+  (setenv "PATH" (concat tools-dir path-separator (getenv "PATH"))))
 
 
 (provide 'early-init)

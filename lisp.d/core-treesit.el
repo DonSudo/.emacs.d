@@ -8,33 +8,32 @@
       (list (expand-file-name "tree-sitter" user-emacs-directory)))
 
 (setq treesit-language-source-alist
-      '((python "https://github.com/tree-sitter/tree-sitter-python")
+      '((python "https://github.com/tree-sitter/tree-sitter-python" "v0.20.4")
         (c      "https://github.com/tree-sitter/tree-sitter-c")
         (cpp    "https://github.com/tree-sitter/tree-sitter-cpp")
-        (json   "https://github.com/tree-sitter/tree-sitter-json")
-        (yaml   "https://github.com/ikatyang/tree-sitter-yaml")
-        (bash   "https://github.com/tree-sitter/tree-sitter-bash")))
+        (bash   "https://github.com/tree-sitter/tree-sitter-bash")
+        (rust   "https://github.com/tree-sitter/tree-sitter-rust" "v0.21.2")
+        (go     "https://github.com/tree-sitter/tree-sitter-go" "v0.21.2")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript")
+        (tsx        "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx")
+        ))
 
-;; 只在 grammar 可用时 remap
-;;(dolist (pair '((python-mode . python-ts-mode)
-;;                (c-mode      . c-ts-mode)
-;;                (c++-mode    . c++-ts-mode)
-;;                (json-mode   . json-ts-mode)
-;;                (yaml-mode   . yaml-ts-mode)
-;;                (sh-mode     . bash-ts-mode)))
-;;  (when (treesit-language-available-p (car pair))
-;;    (add-to-list 'major-mode-remap-alist pair)))
 
 ;; 记录已提示过的 treesit 语言（避免重复 message）
 (defvar my/treesit-enabled-languages nil
   "Languages for which tree-sitter has been enabled and notified.")
 
-(dolist (pair '((python-mode . python-ts-mode)
-                (c-mode      . c-ts-mode)
-                (c++-mode    . c++-ts-mode)
-                (json-mode   . json-ts-mode)
-                (yaml-mode   . yaml-ts-mode)
-                (sh-mode     . bash-ts-mode)))
+(dolist (pair '((python-mode         . python-ts-mode)
+                (c-mode              . c-ts-mode)
+                (c++-mode            . c++-ts-mode)
+                (sh-mode             . bash-ts-mode)
+                (rust-mode           . rust-ts-mode)
+                (go-mode             . go-ts-mode)
+                (javascript-mode     . js-ts-mode)
+                (typescript-mode     . typescript-ts-mode)
+                (tsx-mode            . tsx-ts-mode)
+                ))
   (let* ((from (car pair))
          (to   (cdr pair))
          ;; python-ts-mode -> python
@@ -47,6 +46,7 @@
       (unless (memq lang my/treesit-enabled-languages)
         (push lang my/treesit-enabled-languages)
         (message "[treesit] Enabled tree-sitter for %s" lang)))))
+
 
 ;; disable treesit when large file
 (defun my/disable-treesit-for-large-files ()

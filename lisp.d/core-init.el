@@ -17,15 +17,24 @@
 ;; Save minibuffer history
 (savehist-mode 1)
 
+;; quicker repeat
+(repeat-mode 1)
+
 ;; Size of temporary buffers
 (temp-buffer-resize-mode)
 (setq temp-buffer-max-height 8)
+
+;; 长行保护
+(global-so-long-mode 1)        
 
 ;; 关闭文件名特殊处理
 (setq file-name-handler-alist nil)
 
 ;; 仅识别 git 做版本控制
 (setq vc-handled-backends '(Git))
+
+;; 内置的垂直补全交互
+;;(fido-vertical-mode 1)
 
 
 ;; ------------------------------
@@ -36,30 +45,30 @@
 
 ;; Line numbers globally
 (global-display-line-numbers-mode 1)
+;; relative number
+(setq display-line-numbers-type 'relative)
+;; these mode disable line number
+(dolist (mode '(term-mode
+                shell-mode
+                eshell-mode
+                vterm-mode
+                treemacs-mode
+                ;;org-mode
+                ))
+  (add-hook (intern (format "%s-hook" mode))
+            (lambda () (display-line-numbers-mode 0))))
 
 ;; 自动高亮成对括号
 (show-paren-mode 1)
 
 ;; Highlight current line
-;;(global-hl-line-mode 1)
-
-;; Minimum window height
-(setq window-min-height 1)
-
-;; Vertical window divider
-(setq window-divider-default-right-width 24)
-(setq window-divider-default-right-width 24)
-(setq window-divider-default-places 'right-only)
-(window-divider-mode 1)
-
-;; emacs self window manage
-(setq frame-resize-pixelwise t)
-(setq window-resize-pixelwise t)
+(global-hl-line-mode 1)
 
 ;; 将下划线绘制在下降线（位置较低）
 (setq x-underline-at-descent-line t)
 
 ;; smooth scroll
+(pixel-scroll-precision-mode 1)
 (setq mouse-wheel-scroll-amount '(2 ((shift) . 5)) ;; 每次滚动 1 行
       mouse-wheel-progressive-speed nil           ;; 关闭加速度
       scroll-step 1                               ;; 光标逐行滚动
@@ -95,5 +104,7 @@
 ;; Recent files
 (setq recentf-max-saved-items 100)
 
+;; Dired 
+(setq-default dired-dwim-target t)
 
 (provide 'core-init)
