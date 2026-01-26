@@ -1,8 +1,11 @@
-;;; ui-font.el --- UI tweaks -*- lexical-binding: t -*-
+;;; ui-core.el --- UI tweaks -*- lexical-binding: t -*-
 
+;; ------------------------------
+;; Font
+;;; ------------------------------
 (defvar my-font-size (cond ((eq system-type 'darwin) 15)
-                                 ((eq system-type 'windows-nt) 14)
-                                 (t 14))
+                           ((eq system-type 'windows-nt) 14)
+                           (t 14))
   "Current font size.")
 
 (defvar my-font-weight "regular"
@@ -87,4 +90,92 @@
                                (my-load-charset-font))))
 
 
-(provide 'ui-font)
+;; ------------------------------
+;; Modeline
+;;; ------------------------------
+(line-number-mode 1)
+(column-number-mode 1)
+(size-indication-mode 1)
+
+;; 显示函数到 modeline
+(which-function-mode 1)
+(setq which-func-unknown "N/A")
+
+;; 显示项目到 modeline
+;;(setopt project-mode-line t)
+
+;; 更紧凑的 modeline
+;;(setq mode-line-compact 'long)
+
+;; 关闭不必要的 minor-modes 列表
+;;(setq mode-line-modes nil)
+(setq-default minor-mode-alist nil)
+
+;; 高亮当前窗口的 modeline
+(setq mode-line-highlight '((t (:inherit highlight))))
+
+
+;; ------------------------------
+;; Window
+;;; ------------------------------
+;; Minimum window height
+(setq window-min-height 1)
+
+;; Vertical window divider
+(setq window-divider-default-right-width 4)
+(setq window-divider-default-bottom-width 4)
+(setq window-divider-default-places 'right-only)
+(window-divider-mode 1)
+
+;; emacs self window manage
+(setq frame-resize-pixelwise t)
+(setq window-resize-pixelwise t)
+
+;; (add-to-list 'display-buffer-alist
+;;              '((lambda (buffer _)
+;;                  (not (get-buffer-window buffer)))
+;;                display-buffer-in-direction
+;;                (direction . right)))
+
+
+;; ------------------------------
+;; Tab Bar
+;;; ------------------------------
+(tab-bar-mode t)
+
+(setq tab-bar-close-button-show nil
+      tab-bar-new-button-show nil
+      tab-bar-tab-name-truncated-max 24
+      tab-bar-history-mode nil
+      tab-bar-hints t)
+
+(setq tab-bar-format
+      '(tab-bar-format-tabs
+        tab-bar-separator
+        tab-bar-format-align-right
+        tab-bar-format-global))
+
+(setq tab-bar-tab-name-function
+      (lambda ()
+        (let ((proj (project-current)))
+          (if proj
+              (file-name-nondirectory
+               (directory-file-name
+                (project-root proj)))
+            (buffer-name)))))
+
+(defun my/tab-bar-switch-to-project ()
+  "Switch to a tab named after current project, or create it."
+  (when-let* ((proj (project-current))
+              (root (project-root proj))
+              (name (file-name-nondirectory
+                     (directory-file-name root))))
+    (unless (member name (mapcar #'car (tab-bar-tabs)))
+      (tab-bar-new-tab))
+    (tab-bar-rename-tab name)))
+
+(add-hook 'project-switch-project-hook
+          #'my/tab-bar-switch-to-project)
+
+
+(provide 'ui-core)

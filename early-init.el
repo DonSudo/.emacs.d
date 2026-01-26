@@ -72,16 +72,11 @@
               ;; 延迟语法高亮，仅在空闲时渲染
               jit-lock-defer-time 0)
 
-(let ((tools "C:/Program Files/Git/usr/bin")) ;; 或者你自己的 diff 目录
-  (add-to-list 'exec-path tools))
-
-;; ~/.emacs.d/tools 作为外部工具优先路径
+;; 统一工具入口
 (let ((tools-dir (expand-file-name "~/.emacs.d/tools")))
-  ;; 1. Emacs 查找可执行文件用
-  (add-to-list 'exec-path tools-dir)
-
-  ;; 2. Emacs 子进程继承的 PATH
-  (setenv "PATH" (concat tools-dir path-separator (getenv "PATH"))))
-
+  (setq exec-path
+        (cons tools-dir exec-path))
+  (setenv "PATH"
+          (concat tools-dir path-separator (getenv "PATH"))))
 
 (provide 'early-init)

@@ -29,11 +29,8 @@
         core-pkg
         core-misc
         core-treesit
-        ui-font
-        ui-modeline
-        ;;ui-tabbar
+        ui-core
         ui-theme
-        ui-window
         ui-pop
         ui-icons
         lsp-eglot

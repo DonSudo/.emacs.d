@@ -18,7 +18,7 @@
 (savehist-mode 1)
 
 ;; quicker repeat
-(repeat-mode 1)
+;;(repeat-mode 1)
 
 ;; Size of temporary buffers
 (temp-buffer-resize-mode)

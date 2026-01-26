@@ -9,12 +9,12 @@
 
 (setq treesit-language-source-alist
       '((python "https://github.com/tree-sitter/tree-sitter-python" "v0.20.4")
-        (c      "https://github.com/tree-sitter/tree-sitter-c")
-        (cpp    "https://github.com/tree-sitter/tree-sitter-cpp")
+        (c      "https://github.com/tree-sitter/tree-sitter-c" "v0.23.2")
+        (cpp    "https://github.com/tree-sitter/tree-sitter-cpp" "v0.23.2")
         (bash   "https://github.com/tree-sitter/tree-sitter-bash")
         (rust   "https://github.com/tree-sitter/tree-sitter-rust" "v0.21.2")
         (go     "https://github.com/tree-sitter/tree-sitter-go" "v0.21.2")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "v0.23.1")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript")
         (tsx        "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx")
         ))
