@@ -1,5 +1,34 @@
 ;;; core-misc.el --- core settings -*- lexical-binding: t -*-
 
+;; Code format 
+;; ---------- 全局 ----------
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default standard-indent 4)
+
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (setq-local tab-width 4)
+            (setq-local indent-tabs-mode nil)))
+
+;; ---------- C 系 ----------
+(setq-default c-basic-offset 4)
+
+;; ---------- JS/TS ----------
+(setq js-indent-level 4)
+(setq typescript-indent-level 4)
+
+;; ---------- Python ----------
+(setq python-indent-offset 4)
+
+;; ---------- treesit ----------
+(setq-default
+ c-ts-mode-indent-offset 4
+ c++-ts-mode-indent-offset 4
+ js-ts-indent-offset 4
+ typescript-ts-mode-indent-offset 4
+ python-ts-mode-indent-offset 4)
+
 ;; 开启全局视觉折行
 (global-visual-line-mode 1)
 
