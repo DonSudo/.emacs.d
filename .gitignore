@@ -2,7 +2,7 @@
 /elpa
 /org-persist
 /eln-cache
-/treeitter
+/tree-sitter
 /lsp-server
 /tools
 custom.el
